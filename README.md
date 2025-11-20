@@ -125,3 +125,31 @@ The path to the `AllWords.txt` dictionary file is currently hardcoded in the sou
     * *Option B (Portable):* Change it to `"AllWords.txt"` and ensure the text file is in the same folder as your `.exe` (usually `x64/Debug` or `x64/Release`).
 
 ---
+## 🔬 The Grand Tournament Results
+
+We ran a comprehensive Monte Carlo simulation comparing **19 distinct strategies** against the full dictionary (~5,000 words). The results highlight the critical trade-off between **Speed** (Average Guesses) and **Safety** (Win Rate).
+
+### 🏆 The Podium
+
+| Rank | Strategy | Win Rate | Avg Guesses | Verdict |
+| :--- | :--- | :--- | :--- | :--- |
+| 🥇 | **Entropy Linguist (Strict)** | **100.00%** | **3.7652** | **The Perfect Solver.** Safe, robust, and efficient. |
+| 🥈 | Vowel Contingency | 100.00% | 3.8094 | Safe, but mathematically inefficient compared to Linguist. |
+| 🥉 | Entropy Raw (Baseline) | 99.96% | 3.7518 | The fastest bot, but lost 2 games due to risky guesses. |
+
+### 📉 The "Human Strategy" Myth
+Many human players start with vowel-heavy words like `AUDIO` or `ADIEU`. The simulation proves this is suboptimal. Consonants provide more information entropy than vowels.
+
+| Strategy | Win Rate | Avg Guesses | Games Lost |
+| :--- | :--- | :--- | :--- |
+| **Entropy Linguist** | **100.00%** | **3.76** | **0** |
+| Vowel Hunter (Adieu) | 99.88% | 3.98 | 6 |
+| Vowel Hunter (Audio) | 99.84% | 4.00 | 8 |
+
+### 🧠 Key Findings
+
+1.  **Entropy > Frequency:** Strategies that relied on `Rank` (picking common words) collapsed in Hard Mode conditions, losing hundreds of games. Math beats intuition.
+2.  **The "Green Trap":** Strategies like `Heatmap Seeker` that try to "fit" the pattern too early often get locked into "silos" (e.g., `_ATCH`) and run out of guesses.
+3.  **The "Pothole" Effect:** Aggressive strategies like `Look Ahead` and `Entropy Raw` are faster on average (3.75 vs 3.76), but they occasionally crash on obscure words. The `Entropy Linguist` sacrifices 0.01 speed for 100% survival.
+
+---
