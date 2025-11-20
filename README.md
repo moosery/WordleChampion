@@ -75,3 +75,53 @@ This repository includes the full history of strategy development defined in `hy
 ## 📜 License
 
 This project is open source. Feel free to fork, experiment, and try to dethrone the Champion!
+
+---
+
+## ⚙️ Setup & Compilation Guide
+
+**Important:** You cannot simply clone and run this project. You must configure the dependencies and update the dictionary file path for your local machine.
+
+### 1. Install Dependencies (vcpkg)
+This project uses **libcurl** for web scraping. The easiest way to install it on Windows is via [Microsoft vcpkg](https://github.com/microsoft/vcpkg).
+
+1.  **Install vcpkg** (if you haven't already):
+    ```powershell
+    git clone [https://github.com/microsoft/vcpkg](https://github.com/microsoft/vcpkg)
+    .\vcpkg\bootstrap-vcpkg.bat
+    ```
+2.  **Install the library:**
+    Open your terminal/PowerShell and run:
+    ```powershell
+    vcpkg install curl:x64-windows
+    ```
+3.  **Link to Visual Studio:**
+    Run this command to allow Visual Studio to automatically find the headers and DLLs:
+    ```powershell
+    vcpkg integrate install
+    ```
+
+### 2. Enable OpenMP
+The simulation engine uses multi-threading to run thousands of games per second. You must enable this in your project settings.
+
+1.  Right-click **WordleChampion** in the Solution Explorer and select **Properties**.
+2.  Set **Configuration** to `All Configurations` and **Platform** to `All Platforms` (or `x64`).
+3.  Navigate to **Configuration Properties** > **C/C++** > **Language**.
+4.  Change **Open MP Support** to **Yes (/openmp)**.
+5.  Click **Apply**.
+
+### 3. ⚠️ CRITICAL: Set Dictionary Path
+The path to the `AllWords.txt` dictionary file is currently hardcoded in the source. **You must change this to match your computer.**
+
+1.  Open **`load_dictionary.cpp`**.
+2.  Locate the `load_dictionary` function (around line 125).
+3.  Find the `fopen_s` call:
+    ```cpp
+    // Find this line:
+    errval = fopen_s(&fpIn, "C:\\VS2022.Projects\\StuffForWordle\\WordleWordsCSVs\\AllWords.txt", "r");
+    ```
+4.  **Update the path** to point to where *you* saved `AllWords.txt`.
+    * *Option A (Hardcoded):* Change it to your absolute path, e.g., `"C:\\Users\\YourName\\Desktop\\AllWords.txt"`.
+    * *Option B (Portable):* Change it to `"AllWords.txt"` and ensure the text file is in the same folder as your `.exe` (usually `x64/Debug` or `x64/Release`).
+
+---
